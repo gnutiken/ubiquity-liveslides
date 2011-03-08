@@ -1,0 +1,10 @@
+directory = new Object()
+directory['sv'] = new Object()
+directory['sv']['startslide.html'] = true
+directory['sv']['dsktop_solutions.html'] = true
+directory['sv']['classes.html'] = true
+directory['sv']['shop.html'] = true
+directory['sv']['web_solutions.html'] = true
+directory['sv']['think_green.html'] = true
+directory['sv']['support.html'] = true
+directory['sv']['cafe.html'] = true
