@@ -1,0 +1,38 @@
+--- gtk_ui.py.orig	2011-03-08 12:46:46.030002014 +0100
++++ gtk_ui.py	2011-03-08 12:54:49.600002015 +0100
+@@ -79,6 +79,8 @@
+ # Define locale path
+ LOCALEDIR = "/usr/share/locale"
+ 
++LIVESLIDES_URL = 'https://github.com/gnutiken/ubiquity-liveslides/raw/master/info.tgz'
++
+ def wrap_fix(w, allocation):
+     # Until the extended layout branch of GTK+ gets merged (bgo #101968).
+     # We cannot short circuit this function if the layout width or height is
+@@ -91,6 +93,17 @@
+     unused, height = layout.get_size()
+     w.set_size_request(-1, height / pango.SCALE)
+ 
++def get_new_slides(url):
++
++    wget_proc = subprocess.Popen(['curl', '-o', '/tmp/info.tgz', '--connect-timeout', '5', url])
++    wget_retcode = wget_proc.poll()
++    if wget_retcode is None or wget_retcode == 0:
++        wget_proc = subprocess.Popen(['sudo', 'tar', '-C', '/usr/share/ubiquity-slideshow', '-zxf', '/tmp/info.tgz'])
++
++        return True
++    else: # no internet
++        return False
++
+ def process_labels(w):
+     if isinstance(w, gtk.Container):
+         children = w.get_children()
+@@ -634,6 +647,8 @@
+             self.page_mode.hide()
+             return
+ 
++        get_new_slides(LIVESLIDES_URL)
++
+         slideshow_locale = self.slideshow_get_available_locale(self.slideshow, self.locale)
+         slideshow_main = self.slideshow + '/slides/index.html'
+ 
