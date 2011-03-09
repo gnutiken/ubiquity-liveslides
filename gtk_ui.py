@@ -94,15 +94,13 @@ def wrap_fix(w, allocation):
     w.set_size_request(-1, height / pango.SCALE)
 
 def get_new_slides(url):
-
-    wget_proc = subprocess.Popen(['curl', '-o', '/tmp/info.tgz', '--connect-timeout', '5', url])
-    wget_retcode = wget_proc.wait()
-    if wget_retcode == 0:
-        wget_proc = subprocess.Popen(['sudo', 'tar', '-C', '/usr/share/ubiquity-slideshow', '-zxf', '/tmp/info.tgz'])
-
-        return True
-    else: # no internet
-        return False
+    curl_proc = subprocess.Popen(['curl', '-o', '/tmp/info.tgz', '--connect-timeout', '5', url])
+    curl_retcode = curl_proc.wait()
+    if curl_retcode == 0:
+        if os.path.exists("/tmp/info.tgz"):
+            curl_proc = subprocess.Popen(['sudo', 'tar', '-C', '/usr/share/ubiquity-slideshow', '-zxf', '/tmp/info.tgz'])
+            return True
+    return False
 
 def process_labels(w):
     if isinstance(w, gtk.Container):
