@@ -96,8 +96,8 @@ def wrap_fix(w, allocation):
 def get_new_slides(url):
 
     wget_proc = subprocess.Popen(['curl', '-o', '/tmp/info.tgz', '--connect-timeout', '5', url])
-    wget_retcode = wget_proc.poll()
-    if wget_retcode is None or wget_retcode == 0:
+    wget_retcode = wget_proc.wait()
+    if wget_retcode == 0:
         wget_proc = subprocess.Popen(['sudo', 'tar', '-C', '/usr/share/ubiquity-slideshow', '-zxf', '/tmp/info.tgz'])
 
         return True
